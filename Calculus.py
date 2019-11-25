@@ -27,11 +27,13 @@ class Calculus(object):
                 state = False
                 break
         return state
-                
-
+    
     def separate_equation(self):
         return re.split("([+-])", self.equation.replace(" ", ""))
 
+    def separate_equation_product_rule(self):
+        return re.split("([*])", self.equation.replace(" ", ""))
+    
     def power_rule(self):
         derivative_equation = []
         derivative_sign = []
@@ -71,7 +73,21 @@ class Calculus(object):
             result = result + item
         return result
 
-    # def product_rule(self):
+    def product_rule(self):
+        derivative_equation = []
+        derivative_sign = []
+        equation_list = self.separate_equation_product_rule()
+        
+        for item in equation_list:
+            if ((item != "*") & (item != None)):
+                hasX = self.__find_symbol_x(item)
+                if (hasX == True):
+                    derivative_equation.append([str(item), "^", "1"])
+                else:
+                    derivative_equation.append(re.split("(['^'])", item.replace(" ", "")))
+                
+        print(derivative_equation)
+
 
     # def quotient_rule(self):
 
@@ -83,4 +99,4 @@ class Calculus(object):
 equation = input("Enter your equation >>> ")
 Calculus = Calculus(equation)
 # print(Calculus.separate_equation())
-print(Calculus.power_rule())
+print(Calculus.product_rule())
